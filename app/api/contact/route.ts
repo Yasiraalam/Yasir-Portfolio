@@ -1,62 +1,66 @@
-import { NextResponse } from "next/server"
-import nodemailer from "nodemailer"
-import { z } from "zod"
+import { type NextRequest, NextResponse } from "next/server"
 
-// Define a schema for your form data using Zod
-const contactFormSchema = z.object({
-  name: z.string().min(1, { message: "Name is required." }),
-  email: z.string().email({ message: "Invalid email address." }),
-  subject: z.string().min(1, { message: "Subject is required." }),
-  message: z.string().min(1, { message: "Message is required." }),
-})
-
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
-    const validatedFields = contactFormSchema.safeParse(body)
+    const { name, email, subject, message } = await request.json()
 
-    if (!validatedFields.success) {
-      return NextResponse.json(
-        {
-          message: "Validation Error",
-          errors: validatedFields.error.flatten().fieldErrors,
-        },
-        { status: 400 },
-      )
+    // Validate required fields
+    if (!name || !email || !subject || !message) {
+      return NextResponse.json({ error: "All fields are required" }, { status: 400 })
     }
 
-    const { name, email, subject, message } = validatedFields.data
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      return NextResponse.json({ error: "Invalid email format" }, { status: 400 })
+    }
 
-    // Create a Nodemailer transporter using your email service details
-    const transporter = nodemailer.createTransport({
-      service: "gmail", // You can use other services like 'outlook', 'yahoo', etc.
+    // Here you would typically send the email using a service like:
+    // - Nodemailer with SMTP
+    // - SendGrid
+    // - Resend
+    // - AWS SES
+
+    // For now, we'll simulate sending an email
+    console.log("Contact form submission:", {
+      name,
+      email,
+      subject,
+      message,
+      timestamp: new Date().toISOString(),
+    })
+
+    // You can replace this with actual email sending logic
+    // Example with Nodemailer:
+    /*
+    const nodemailer = require('nodemailer')
+    
+    const transporter = nodemailer.createTransporter({
+      service: 'gmail',
       auth: {
-        user: process.env.EMAIL_USER, // Your email address (e.g., yasiralam981@gmail.com)
-        pass: process.env.EMAIL_PASS, // Your App Password for Gmail
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
     })
 
-    // Define email options
-    const mailOptions = {
-      from: process.env.EMAIL_USER, // Sender address
-      to: "yasiralam981@gmail.com", // Recipient address
+    await transporter.sendMail({
+      from: email,
+      to: 'yasiralam981@gmail.com',
       subject: `Portfolio Contact: ${subject}`,
       html: `
+        <h2>New Contact Form Submission</h2>
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Subject:</strong> ${subject}</p>
         <p><strong>Message:</strong></p>
         <p>${message}</p>
       `,
-    }
+    })
+    */
 
-    // Send the email
-    await transporter.sendMail(mailOptions)
-
-    console.log("Email sent successfully!")
-    return NextResponse.json({ message: "Email sent successfully!" }, { status: 200 })
+    return NextResponse.json({ message: "Message sent successfully!" }, { status: 200 })
   } catch (error) {
-    console.error("Error sending email:", error)
-    return NextResponse.json({ message: "Failed to send email." }, { status: 500 })
+    console.error("Contact form error:", error)
+    return NextResponse.json({ error: "Failed to send message" }, { status: 500 })
   }
 }
