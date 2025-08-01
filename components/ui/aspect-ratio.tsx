@@ -9,7 +9,7 @@ const AspectRatio = React.forwardRef<
   React.ElementRef<typeof AspectRatioPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof AspectRatioPrimitive.Root>
 >(({ className, ...props }, ref) => (
-  <AspectRatioPrimitive.Root ref={ref} className={cn("relative w-full", className)} {...props} />
+  <AspectRatioPrimitive.Root ref={ref} className={cn("relative h-full w-full", className)} {...props} />
 ))
 AspectRatio.displayName = AspectRatioPrimitive.Root.displayName
 

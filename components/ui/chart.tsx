@@ -1,200 +1,104 @@
 "use client"
 
-import { cn } from "@/lib/utils"
+import type * as React from "react"
+import { Bar, BarChart, Line, LineChart, Pie, PieChart, XAxis, YAxis, CartesianGrid, Legend } from "recharts"
+import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 
-import * as React from "react"
-import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import type { CategoricalChartProps } from "recharts/types/component/DefaultTooltipContent"
-
-type ChartLegend = {
-  name: string
-  color: string
-}
-
-type ChartTableProps<TData extends Record<string, any>> = {
-  data: TData[]
+// Define a type for common chart props
+type CommonChartProps = {
+  data: Record<string, any>[]
   config: ChartConfig
-  valueFormatter?: (value: number) => string
-} & React.ComponentPropsWithoutRef<typeof Table>
-
-function ChartTable<TData extends Record<string, any>>({
-  data,
-  config,
-  valueFormatter = (value) => value.toLocaleString(),
-  className,
-  ...props
-}: ChartTableProps<TData>) {
-  const total = React.useMemo(
-    () =>
-      data.reduce(
-        (acc, curr) => {
-          for (const key of Object.keys(config)) {
-            acc[key] = (acc[key] || 0) + curr[key]
-          }
-          return acc
-        },
-        {} as Record<string, number>,
-      ),
-    [data, config],
-  )
-
-  return (
-    <Table className={className} {...props}>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Metric</TableHead>
-          <TableHead className="text-right">Value</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {Object.entries(config).map(([key, item]) => (
-          <TableRow key={key}>
-            <TableCell>
-              <div className="flex items-center gap-2">
-                <span className="size-3 rounded-full" style={{ backgroundColor: item.color }} />
-                {item.label}
-              </div>
-            </TableCell>
-            <TableCell className="text-right">{valueFormatter(total[key])}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  )
+  className?: string
+  height?: number
 }
 
-type ChartCrosshairProps = {
-  x: number
-  y: number
-  stroke: string
-  orientation: "horizontal" | "vertical"
+// Bar Chart Component
+interface BarChartProps extends CommonChartProps {
+  barKeys: { key: string; color: string }[]
+  xAxisKey: string
 }
 
-function ChartCrosshair({ x, y, stroke, orientation }: ChartCrosshairProps) {
-  return (
-    <g>
-      {orientation === "vertical" && <line x1={x} y1="0" x2={x} y2="9999" stroke={stroke} strokeDasharray="4 4" />}
-      {orientation === "horizontal" && <line x1="0" y1={y} x2="9999" y2={y} stroke={stroke} strokeDasharray="4 4" />}
-    </g>
-  )
+const CustomBarChart: React.FC<BarChartProps> = ({ data, config, className, height = 300, barKeys, xAxisKey }) => (
+  <ChartContainer config={config} className={className} style={{ height }}>
+    <BarChart accessibilityLayer data={data}>
+      <CartesianGrid vertical={false} />
+      <XAxis
+        dataKey={xAxisKey}
+        tickLine={false}
+        tickMargin={10}
+        axisLine={false}
+        tickFormatter={(value) => value.slice(0, 3)}
+      />
+      <YAxis />
+      <ChartTooltip content={<ChartTooltipContent />} />
+      {barKeys.map((item) => (
+        <Bar key={item.key} dataKey={item.key} fill={`var(--color-${item.color})`} radius={8} />
+      ))}
+    </BarChart>
+  </ChartContainer>
+)
+
+// Line Chart Component
+interface LineChartProps extends CommonChartProps {
+  lineKeys: { key: string; color: string }[]
+  xAxisKey: string
 }
 
-type ChartLegendContentProps = {
-  config: ChartConfig
-} & CategoricalChartProps
-
-function ChartLegendContent({ config, ...props }: ChartLegendContentProps) {
-  const { payload } = props
-  if (!payload || !payload.length) return null
-
-  return (
-    <ul className="flex flex-col gap-2">
-      {payload.map((item) => {
-        const { value, color } = item
-        const legend = config[value as keyof typeof config]
-
-        return (
-          <li key={value} className="flex items-center gap-2">
-            <span className="size-3 rounded-full" style={{ backgroundColor: color }} />
-            {legend?.label}
-          </li>
-        )
-      })}
-    </ul>
-  )
-}
-
-type ChartActiveLegendContentProps = {
-  config: ChartConfig
-} & CategoricalChartProps
-
-function ChartActiveLegendContent({ config, ...props }: ChartActiveLegendContentProps) {
-  const { payload } = props
-  if (!payload || !payload.length) return null
-
-  return (
-    <ul className="flex flex-col gap-2">
-      {payload.map((item) => {
-        const { value, color } = item
-        const legend = config[value as keyof typeof config]
-
-        return (
-          <li key={value} className="flex items-center gap-2">
-            <span className="size-3 rounded-full" style={{ backgroundColor: color }} />
-            {legend?.label}
-          </li>
-        )
-      })}
-    </ul>
-  )
-}
-
-type ChartSelectProps = {
-  value: string
-  onValueChange: (value: string) => void
-  options: { value: string; label: string }[]
-  label?: string
-} & React.ComponentPropsWithoutRef<typeof Select>
-
-function ChartSelect({ value, onValueChange, options, label, className, ...props }: ChartSelectProps) {
-  return (
-    <div className={cn("flex items-center gap-2", className)}>
-      {label && <Label>{label}</Label>}
-      <Select value={value} onValueChange={onValueChange} {...props}>
-        <SelectTrigger className="h-8 w-fit text-xs">
-          <SelectValue placeholder="Select a value" />
-        </SelectTrigger>
-        <SelectContent>
-          {options.map((option) => (
-            <SelectItem key={option.value} value={option.value}>
-              {option.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </div>
-  )
-}
-
-type ChartTooltipProps = React.ComponentPropsWithoutRef<typeof ChartTooltip> & {
-  hideLabel?: boolean
-  hideIndicator?: boolean
-  valueFormatter?: (value: number) => string
-  labelFormatter?: (label: string) => string
-}
-
-function ChartTooltipCustom({
-  hideLabel = false,
-  hideIndicator = false,
-  valueFormatter = (value) => value.toLocaleString(),
-  labelFormatter = (label) => label,
-  ...props
-}: ChartTooltipProps) {
-  return (
-    <ChartTooltip
-      cursor={false}
-      content={
-        <ChartTooltipContent
-          hideLabel={hideLabel}
-          hideIndicator={hideIndicator}
-          itemFormatter={valueFormatter}
-          labelFormatter={labelFormatter}
+const CustomLineChart: React.FC<LineChartProps> = ({ data, config, className, height = 300, lineKeys, xAxisKey }) => (
+  <ChartContainer config={config} className={className} style={{ height }}>
+    <LineChart accessibilityLayer data={data}>
+      <CartesianGrid vertical={false} />
+      <XAxis dataKey={xAxisKey} tickLine={false} tickMargin={10} axisLine={false} />
+      <YAxis />
+      <ChartTooltip content={<ChartTooltipContent />} />
+      {lineKeys.map((item) => (
+        <Line
+          key={item.key}
+          dataKey={item.key}
+          type="monotone"
+          stroke={`var(--color-${item.color})`}
+          strokeWidth={2}
+          dot={false}
         />
-      }
-      {...props}
-    />
-  )
+      ))}
+    </LineChart>
+  </ChartContainer>
+)
+
+// Pie Chart Component
+interface PieChartProps extends CommonChartProps {
+  nameKey: string
+  dataKey: string
 }
 
-export {
-  ChartContainer,
-  ChartTooltipCustom as ChartTooltip,
-  ChartLegendContent,
-  ChartActiveLegendContent,
-  ChartSelect,
-  ChartTable,
-  ChartCrosshair,
-}
+const CustomPieChart: React.FC<PieChartProps> = ({ data, config, className, height = 300, nameKey, dataKey }) => (
+  <ChartContainer config={config} className={className} style={{ height }}>
+    <PieChart>
+      <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
+      <Pie
+        data={data}
+        dataKey={dataKey}
+        nameKey={nameKey}
+        innerRadius={60}
+        strokeWidth={5}
+        activeShape={({
+          outerRadius = 0,
+          fill = "",
+          ...props
+        }: {
+          outerRadius?: number
+          fill?: string
+          [key: string]: any
+        }) => (
+          <g>
+            <circle cx={props.cx} cy={props.cy} r={outerRadius + 10} fill={fill} stroke="none" />
+            <path d={props.d} fill={fill} />
+          </g>
+        )}
+      />
+      <Legend />
+    </PieChart>
+  </ChartContainer>
+)
+
+export { CustomBarChart, CustomLineChart, CustomPieChart }

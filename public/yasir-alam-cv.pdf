@@ -1,0 +1,95 @@
+Yasir Aalam Chaniza 
+Noida Uttar Pradesh 201307 
+ 
+ +91 −7889904799 —   
+yasiralam981@gmail.com 
+— 
+ 
+LinkedIn 
+— 
+ 
+Github — 
+ Twitter − X
+ 
+SUMMARY  
+Backend & Android Developer with hands-on experience in building scalable apps using Spring Boot, Java, Kotlin, and 
+Jetpack Compose. Skilled in REST API development, relational databases, and clean architecture. Currently learning Kotlin 
+Multiplatform (KMM) and Compose Multiplatform (CMP) to deliver cross-platform apps. Familiar with Veeam Backup & 
+Replication for data protection. Passionate about creating robust backend systems and smooth, user-focused mobile experiences. 
+EDUCATION  
+Islamic University of science and technology Awantipora Pulwama 
+Bachelor of Science in Computer Science and engineering   (7.23 CGPA) Oct. 2020 – 2024 
+TECHNICAL SKILLS  
+Languages: Kotlin , Java, Python, C/C++, SQL, JavaScript, HTML/CSS, 
+Frameworks: Spring Boot ,Android Development, Jetpack Compose, Flask, Dependency Injection, JUnit, Mockito , Material-UI, 
+Developer Tools: Git, Github, Docker, Android Studio, VS Code, IntelliJ, Postman, Firebase, Veeam BackUp and Replication 
+EXPERIENCE  
+Novo Cabs Dec 2022 – Feb 2023 
+Native Android Intern Delhi 
+• 
+Certificate: Certificate Link 
+• Successfully completed a dynamic internship at Novo Cabs. This hands-on experience involved coding, testing, 
+and implementing features, showcasing my proficiency in application development. 
+• Developed expertise in visualizing and automating daily test reports, utilizing Kotlin, Java, Jetpack Compose, XML, 
+and working with APIs. 
+• Developed a REST API using Flask and MongoDb and MySql to store data from learning management systems. 
+• Explored ways to visualize GitHub collaboration in a classroom setting. 
+ 
+    Minipix(minipix.in) 
+Android Developer Intern 
+MiniPix is a mobile‑first, regional OTT short‑form video streaming platform serving audiences across India               Bangalore(remote) 
+ 
+       Key Contributions & Achievements:  
+● Led the complete migration from Retrofit to Ktor, resulting in a 40% improvement in API response time and reduced app 
+latency. 
+● Refactored dependency injection across modules by replacing Hilt with Koin to enable Kotlin Multiplatform Mobile (KMM) 
+support and cleaner architecture. 
+● Redesigned core UI components using Jetpack Compose, enhancing the app's visual design and improving user engagement 
+metrics. 
+● Automated real-time testing dashboards and QA reporting pipelines, streamlining CI/CD practices using Kotlin. 
+● Gained hands-on experience in agile development, collaborating cross-functionally with design and QA teams to ensure timely 
+sprint deliveries. 
+PROJECTS  
+E-Commerce Microservices App | Java, Spring Boot                        March 2024 
+• 
+GitHub link
+ 
+• Designed and developed a scalable e-commerce backend system using Java and Spring Boot with a microservices architecture. 
+• Implemented four independent services: Product Service, Order Service, Inventory Service, and an API Gateway using 
+Spring Cloud Gateway. 
+• Secured the application using OAuth2 for authentication and authorization. 
+• Used MongoDB and MySQL for distributed data handling across services. 
+• Integrated Resilience 4j  to implement circuit breakers for fault tolerance and service reliability. 
+• Applied best practices for REST API design, service communication, and exception handling across microservices. 
+ 
+ 
+
+    Snappit — Android Image Upload | Kotlin Jetpack. Firebase       
+ Github Link 
+ Built a feature-rich Android app for photo sharing, enabling seamless image upload, discovery, and social interaction. 
+              Key Features: 
+● Upload, view, and download images using Retrofit with secure REST APIs. 
+● Display images in a dynamic gallery grid with full-screen preview. 
+● Comment and reply on images with a threaded chat-style interface. 
+● View other user profiles and see their uploaded content. 
+● Follow/unfollow system to build personalized content feeds. 
+● Built with Jetpack Compose, Kotlin Coroutines, and Material 3 UI components. 
+ 
+ZipFeast: Beyond Shopping | Kotlin, Jetpack Compose, React, Node.js, Prisma Jan - June 2024 
+• 
+GitHub link
+ 
+• Collaborated in a team to design and develop an innovative e-commerce platform integrating grocery shopping and home 
+services. 
+• Led the development of the mobile app using Kotlin and Jetpack Compose, following the MVVM architecture. 
+• Backend development, including Node.js and Prisma ORM for managing the database, was handled by a teammate. 
+• Implemented Hilt for dependency injection and real-time inventory management in the mobile app. 
+ 
+ 
+VideoPlayer App | Kotlin, XML, ExoPlayer January 2023 
+• GitHub link 
+• Created an advanced video player application supporting multiple video formats, utilizing ExoPlayer 
+for smooth playback. 
+• Implemented comprehensive playlist management and local media playback functionality. 
+• Followed Android’s Material Design guidelines to ensure a clean and intuitive user interface. 
+• Used the MVVM architecture to ensure code modularity and scalability

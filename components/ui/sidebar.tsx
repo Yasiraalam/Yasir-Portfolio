@@ -142,7 +142,7 @@ const SidebarComponent = React.forwardRef<
     items: {
       href: string
       title: string
-      icon?: React.ReactNode
+      icon: React.ComponentType<{ className?: string }>
     }[]
   }
 >(({ side = "left", variant = "sidebar", collapsible = "offcanvas", className, items, children, ...props }, ref) => {
@@ -185,9 +185,9 @@ const SidebarComponent = React.forwardRef<
                   pathname === item.href ? "bg-accent" : "transparent",
                 )}
               >
-                {item.icon && (
-                  <span className="mr-3 text-muted-foreground group-hover:text-accent-foreground">{item.icon}</span>
-                )}
+                {React.createElement(item.icon, {
+                  className: cn("mr-3 text-muted-foreground group-hover:text-accent-foreground"),
+                })}
                 <span>{item.title}</span>
               </Link>
             ))}
@@ -249,12 +249,15 @@ const SidebarComponent = React.forwardRef<
                         pathname === item.href ? "bg-accent" : "transparent",
                       )}
                     >
-                      {item.icon && (
-                        <span className="mr-3 text-muted-foreground group-hover:text-accent-foreground">
-                          {item.icon}
-                        </span>
-                      )}
-                      <span>{item.title}</span>
+                      {React.createElement(item.icon, {
+                        className: cn(
+                          "mr-3 h-5 w-5",
+                          pathname === item.href ? "text-primary" : "text-muted-foreground group-hover:text-primary",
+                        ),
+                      })}
+                      <span className={cn(pathname === item.href ? "text-primary" : "text-foreground")}>
+                        {item.title}
+                      </span>
                     </Link>
                   ))}
                 </ScrollArea>
