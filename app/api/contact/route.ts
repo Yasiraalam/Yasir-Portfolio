@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
 
     await transporter.sendMail({
       from: email,
-      to: 'yasiralam981@gmail.com',
+      to: 'yasiralam981@gmail.com', // <--- This is the target email address
       subject: `Portfolio Contact: ${subject}`,
       html: `
         <h2>New Contact Form Submission</h2>
