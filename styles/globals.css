@@ -88,3 +88,6 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* This file is not used in the current project structure.
+   The main global CSS is located at `app/globals.css`. */

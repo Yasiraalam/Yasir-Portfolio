@@ -12,7 +12,6 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import {
   Mail,
-  Phone,
   MapPin,
   Github,
   Linkedin,
@@ -771,12 +770,7 @@ export default function Portfolio() {
                       color: "from-purple-500 to-pink-500",
                       href: "mailto:yasiralam981@gmail.com",
                     },
-                    {
-                      icon: Phone,
-                      text: "+91-7889904799",
-                      color: "from-emerald-500 to-teal-500",
-                      href: "tel:+917889904799",
-                    },
+                    // Removed the phone number entry
                     {
                       icon: MapPin,
                       text: "Bandipora, Jammu and Kashmir, India",
