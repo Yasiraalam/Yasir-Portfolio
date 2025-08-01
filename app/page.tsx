@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import Image from "next/image"
 
 import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
@@ -336,9 +337,13 @@ export default function Portfolio() {
               <div className="relative w-40 h-40 mx-auto mb-6">
                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-500 rounded-full animate-spin-slow"></div>
                 <div className="absolute inset-2 rounded-full overflow-hidden">
-                  <img
+                  <Image
                     src="/images/yasir-profile.jpg"
                     alt="Yasir Alam"
+                    width={160} // Corresponds to w-40 (160px)
+                    height={160} // Corresponds to h-40 (160px)
+                    priority // Loads the image with high priority as it's above the fold
+                    quality={100} // Maintain high quality for the profile picture
                     className="w-full h-full object-cover rounded-full"
                   />
                 </div>
