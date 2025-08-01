@@ -1,4 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server"
+import nodemailer from "nodemailer" // Import nodemailer
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,37 +16,19 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid email format" }, { status: 400 })
     }
 
-    // Here you would typically send the email using a service like:
-    // - Nodemailer with SMTP
-    // - SendGrid
-    // - Resend
-    // - AWS SES
-
-    // For now, we'll simulate sending an email
-    console.log("Contact form submission:", {
-      name,
-      email,
-      subject,
-      message,
-      timestamp: new Date().toISOString(),
-    })
-
-    // You can replace this with actual email sending logic
-    // Example with Nodemailer:
-    /*
-    const nodemailer = require('nodemailer')
-    
-    const transporter = nodemailer.createTransporter({
-      service: 'gmail',
+    // Configure Nodemailer transporter
+    const transporter = nodemailer.createTransport({
+      service: "gmail", // You can use other services or SMTP settings
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user: process.env.EMAIL_USER, // Your Gmail address or service email
+        pass: process.env.EMAIL_PASS, // Your Gmail app password or service password
       },
     })
 
+    // Send the email
     await transporter.sendMail({
-      from: email,
-      to: 'yasiralam981@gmail.com', // <--- This is the target email address
+      from: email, // Sender's email from the form
+      to: "yasiralam981@gmail.com", // Recipient's email address
       subject: `Portfolio Contact: ${subject}`,
       html: `
         <h2>New Contact Form Submission</h2>
@@ -56,7 +39,14 @@ export async function POST(request: NextRequest) {
         <p>${message}</p>
       `,
     })
-    */
+
+    console.log("Contact form submission sent via email:", {
+      name,
+      email,
+      subject,
+      message,
+      timestamp: new Date().toISOString(),
+    })
 
     return NextResponse.json({ message: "Message sent successfully!" }, { status: 200 })
   } catch (error) {
