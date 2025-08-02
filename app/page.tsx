@@ -12,7 +12,6 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import {
   Mail,
-  Phone,
   MapPin,
   Github,
   Linkedin,
@@ -28,7 +27,6 @@ import {
   User,
   MessageSquare,
   ExternalLink,
-  Quote,
 } from "lucide-react"
 
 export default function Portfolio() {
@@ -59,7 +57,7 @@ export default function Portfolio() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ["home", "about", "skills", "experience", "projects", "education", "testimonials", "contact"]
+      const sections = ["home", "about", "skills", "experience", "projects", "education", "contact"]
       const scrollPosition = window.scrollY + 100
 
       for (const section of sections) {
@@ -193,7 +191,6 @@ export default function Portfolio() {
       liveDemo: "https://ecommerce-demo.yasiralam.dev",
       icon: <Server className="h-6 w-6" />,
       color: "from-purple-500 to-pink-500",
-      image: "/images/ecommerce-microservices.png",
     },
     {
       title: "ZipFeast: Beyond Shopping",
@@ -210,7 +207,6 @@ export default function Portfolio() {
       liveDemo: "https://zipfeast.yasiralam.dev",
       icon: <Smartphone className="h-6 w-6" />,
       color: "from-emerald-500 to-teal-500",
-      image: "/images/zipfeast.png",
     },
     {
       title: "SnapIt - Photo Sharing App",
@@ -227,7 +223,6 @@ export default function Portfolio() {
       github: "https://github.com/Yasiraalam/Snappit",
       icon: <Smartphone className="h-6 w-6" />,
       color: "from-pink-500 to-rose-500",
-      image: "/images/snapit.png",
     },
     {
       title: "VideoPlayer App",
@@ -243,24 +238,6 @@ export default function Portfolio() {
       github: "https://github.com/Yasiraalam/VideoPlayer-Yas",
       icon: <Code className="h-6 w-6" />,
       color: "from-orange-500 to-red-500",
-      image: "/images/videoplayer.png",
-    },
-  ]
-
-  const testimonials = [
-    {
-      quote:
-        "Yasir is a highly dedicated and skilled developer. His ability to quickly grasp complex concepts and deliver robust solutions is truly impressive. He was a valuable asset to our team.",
-      name: "Jane Doe",
-      title: "Senior Software Engineer at TechCorp",
-      avatar: "/images/placeholder-user.jpg",
-    },
-    {
-      quote:
-        "Working with Yasir was a pleasure. He consistently delivered high-quality code and showed great initiative in tackling challenging problems. His passion for mobile development is evident in his work.",
-      name: "John Smith",
-      title: "Project Manager at Innovate Mobile",
-      avatar: "/images/placeholder-user.jpg",
     },
   ]
 
@@ -304,23 +281,21 @@ export default function Portfolio() {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex space-x-8">
-              {["Home", "About", "Skills", "Experience", "Projects", "Education", "Testimonials", "Contact"].map(
-                (item, index) => (
-                  <button
-                    key={item}
-                    onClick={() => scrollToSection(item.toLowerCase())}
-                    className={`relative hover:text-emerald-400 transition-all duration-300 transform hover:scale-110 ${
-                      activeSection === item.toLowerCase() ? "text-emerald-400" : "text-slate-300"
-                    }`}
-                    style={{ animationDelay: `${index * 100}ms` }}
-                  >
-                    {item}
-                    {activeSection === item.toLowerCase() && (
-                      <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-emerald-400 to-teal-400 animate-expand"></div>
-                    )}
-                  </button>
-                ),
-              )}
+              {["Home", "About", "Skills", "Experience", "Projects", "Education", "Contact"].map((item, index) => (
+                <button
+                  key={item}
+                  onClick={() => scrollToSection(item.toLowerCase())}
+                  className={`relative hover:text-emerald-400 transition-all duration-300 transform hover:scale-110 ${
+                    activeSection === item.toLowerCase() ? "text-emerald-400" : "text-slate-300"
+                  }`}
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  {item}
+                  {activeSection === item.toLowerCase() && (
+                    <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-emerald-400 to-teal-400 animate-expand"></div>
+                  )}
+                </button>
+              ))}
             </div>
 
             {/* Mobile Navigation Button */}
@@ -335,18 +310,16 @@ export default function Portfolio() {
           {/* Mobile Navigation Menu */}
           {isMenuOpen && (
             <div className="md:hidden py-4 border-t border-slate-800 animate-slideDown">
-              {["Home", "About", "Skills", "Experience", "Projects", "Education", "Testimonials", "Contact"].map(
-                (item, index) => (
-                  <button
-                    key={item}
-                    onClick={() => scrollToSection(item.toLowerCase())}
-                    className="block w-full text-left py-2 hover:text-emerald-400 transition-all duration-300 transform hover:translate-x-2"
-                    style={{ animationDelay: `${index * 50}ms` }}
-                  >
-                    {item}
-                  </button>
-                ),
-              )}
+              {["Home", "About", "Skills", "Experience", "Projects", "Education", "Contact"].map((item, index) => (
+                <button
+                  key={item}
+                  onClick={() => scrollToSection(item.toLowerCase())}
+                  className="block w-full text-left py-2 hover:text-emerald-400 transition-all duration-300 transform hover:translate-x-2"
+                  style={{ animationDelay: `${index * 50}ms` }}
+                >
+                  {item}
+                </button>
+              ))}
             </div>
           )}
         </div>
@@ -414,15 +387,14 @@ export default function Portfolio() {
                 <span className="relative z-10">Get In Touch</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
               </Button>
-              <a
-                href="https://drive.google.com/file/d/1hBEqMdlt8rKZn4XswaHCGOZM3Ae8ReKp/view?usp=sharing"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative border-2 border-emerald-400 text-emerald-400 hover:bg-emerald-400 hover:text-slate-900 px-8 py-4 text-lg font-semibold bg-transparent rounded-full transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-emerald-500/25 flex items-center justify-center"
+              <Button
+                variant="outline"
+                className="group relative border-2 border-emerald-400 text-emerald-400 hover:bg-emerald-400 hover:text-slate-900 px-8 py-4 text-lg font-semibold bg-transparent rounded-full transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-emerald-500/25"
+                onClick={() => window.open("/yasir-alam-cv.pdf", "_blank")}
               >
                 <Download className="mr-2 h-5 w-5 group-hover:animate-bounce" />
                 <span>Download CV</span>
-              </a>
+              </Button>
             </div>
 
             {/* Animated Social Links */}
@@ -681,17 +653,6 @@ export default function Portfolio() {
                 style={{ animationDelay: `${index * 200}ms` }}
               >
                 <CardHeader>
-                  {project.image && (
-                    <div className="relative w-full h-48 mb-4 overflow-hidden rounded-lg">
-                      <Image
-                        src={project.image || "/placeholder.svg"}
-                        alt={project.title}
-                        layout="fill"
-                        objectFit="cover"
-                        className="transition-transform duration-500 group-hover:scale-110"
-                      />
-                    </div>
-                  )}
                   <div className="flex items-start justify-between mb-4">
                     <div className={`p-3 rounded-lg bg-gradient-to-r ${project.color} group-hover:animate-pulse`}>
                       <div className="text-white">{project.icon}</div>
@@ -785,42 +746,6 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section id="testimonials" className="relative py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto relative z-10">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
-            Testimonials
-          </h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <Card
-                key={index}
-                className="group bg-slate-800/50 backdrop-blur-sm border-slate-700 hover:border-emerald-400/50 transition-all duration-500 transform hover:scale-105 animate-fadeInUp"
-                style={{ animationDelay: `${index * 200}ms` }}
-              >
-                <CardContent className="p-6">
-                  <Quote className="h-8 w-8 text-emerald-400 mb-4 opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
-                  <p className="text-lg text-slate-300 mb-6 italic leading-relaxed">"{testimonial.quote}"</p>
-                  <div className="flex items-center space-x-4">
-                    <Image
-                      src={testimonial.avatar || "/placeholder.svg"}
-                      alt={testimonial.name}
-                      width={48}
-                      height={48}
-                      className="rounded-full object-cover border-2 border-emerald-400 group-hover:scale-110 transition-transform duration-300"
-                    />
-                    <div>
-                      <p className="font-semibold text-emerald-400">{testimonial.name}</p>
-                      <p className="text-sm text-slate-400">{testimonial.title}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Contact Section */}
       <section id="contact" className="relative py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto relative z-10">
@@ -844,12 +769,6 @@ export default function Portfolio() {
                       text: "yasiralam981@gmail.com",
                       color: "from-purple-500 to-pink-500",
                       href: "mailto:yasiralam981@gmail.com",
-                    },
-                    {
-                      icon: Phone,
-                      text: "+91-7889904799",
-                      color: "from-emerald-500 to-teal-500",
-                      href: "tel:+917889904799",
                     },
                     {
                       icon: MapPin,
