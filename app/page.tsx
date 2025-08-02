@@ -145,7 +145,7 @@ export default function Portfolio() {
   }
 
   const skills = {
-    languages: ["Kotlin", "Java", "Python", "C/C++", "JavaScript", "SQL", "HTML/CSS"],
+    languages: ["Kotlin", "Java", "Python", "C/C++", "SQL", "JavaScript", "HTML/CSS"],
     frameworks: ["Spring Boot", "Android Development", "Jetpack Compose", "Flask", "Material-UI"],
     tools: [
       "Git",
@@ -387,14 +387,14 @@ export default function Portfolio() {
                 <span className="relative z-10">Get In Touch</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
               </Button>
-              <Button
-                variant="outline"
-                className="group relative border-2 border-emerald-400 text-emerald-400 hover:bg-emerald-400 hover:text-slate-900 px-8 py-4 text-lg font-semibold bg-transparent rounded-full transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-emerald-500/25"
-                onClick={() => window.open("/yasir-alam-cv.pdf", "_blank")}
+              <a
+                href="/yasir-alam-cv.pdf"
+                download="Yasir_Alam_CV.pdf"
+                className="group relative border-2 border-emerald-400 text-emerald-400 hover:bg-emerald-400 hover:text-slate-900 px-8 py-4 text-lg font-semibold bg-transparent rounded-full transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-emerald-500/25 flex items-center justify-center"
               >
                 <Download className="mr-2 h-5 w-5 group-hover:animate-bounce" />
                 <span>Download CV</span>
-              </Button>
+              </a>
             </div>
 
             {/* Animated Social Links */}

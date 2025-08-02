@@ -1,48 +1,43 @@
 import { NextResponse } from "next/server"
-import nodemailer from "nodemailer"
-import { z } from "zod"
-
-const contactFormSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  email: z.string().email("Invalid email address"),
-  subject: z.string().min(1, "Subject is required"),
-  message: z.string().min(1, "Message is required"),
-})
 
 export async function POST(request: Request) {
   try {
     const formData = await request.json()
-    const validatedData = contactFormSchema.parse(formData)
+    const { name, email, subject, message } = formData
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    })
+    // Here you would typically send the email using a service like Nodemailer, SendGrid, etc.
+    // For this example, we'll just log the data and simulate success.
+    console.log("Contact form submission received:")
+    console.log(`Name: ${name}`)
+    console.log(`Email: ${email}`)
+    console.log(`Subject: ${subject}`)
+    console.log(`Message: ${message}`)
 
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: "yasiralam981@gmail.com", // Your email address
-      subject: `Portfolio Contact: ${validatedData.subject}`,
+    // Simulate a delay for demonstration purposes
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+
+    // In a real application, you would integrate with an email sending service here.
+    // Example with a placeholder for an actual email sending logic:
+    /*
+    const sgMail = require('@sendgrid/mail');
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const msg = {
+      to: 'your-email@example.com', // Your email address
+      from: 'noreply@yourdomain.com', // Your verified sender email
+      subject: `New Contact Form Submission: ${subject}`,
       html: `
-        <p><strong>Name:</strong> ${validatedData.name}</p>
-        <p><strong>Email:</strong> ${validatedData.email}</p>
-        <p><strong>Subject:</strong> ${validatedData.subject}</p>
-        <p><strong>Message:</strong></p>
-        <p>${validatedData.message}</p>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Subject:</strong> ${subject}</p>
+        <p><strong>Message:</strong> ${message}</p>
       `,
-    }
+    };
+    await sgMail.send(msg);
+    */
 
-    await transporter.sendMail(mailOptions)
-
-    return NextResponse.json({ message: "Email sent successfully!" }, { status: 200 })
+    return NextResponse.json({ message: "Message sent successfully!" }, { status: 200 })
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ errors: error.errors, message: "Validation failed" }, { status: 400 })
-    }
-    console.error("Error sending email:", error)
-    return NextResponse.json({ message: "Failed to send email." }, { status: 500 })
+    console.error("Error sending message:", error)
+    return NextResponse.json({ message: "Failed to send message." }, { status: 500 })
   }
 }

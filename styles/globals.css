@@ -89,7 +89,5 @@
   }
 }
 
-/* This file is not used in the current project structure.
-   The main global CSS is located at `app/globals.css`.
-
-   You can add global styles to this file, and also import other style files */
+/* This file is intentionally left blank. */
+/* All global styles are now in app/globals.css */

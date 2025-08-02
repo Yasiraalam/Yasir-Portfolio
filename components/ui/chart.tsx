@@ -1,104 +1,163 @@
 "use client"
 
-import type * as React from "react"
-import { Bar, BarChart, Line, LineChart, Pie, PieChart, XAxis, YAxis, CartesianGrid, Legend } from "recharts"
-import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import * as React from "react"
+import {
+  Bar,
+  BarChart,
+  Line,
+  LineChart,
+  Pie,
+  PieChart,
+  XAxis,
+  YAxis,
+  ResponsiveContainer,
+  type BarProps,
+  type LineProps,
+  type PieProps,
+} from "recharts"
+import {
+  type ChartConfig,
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart"
+import { cn } from "@/lib/utils"
 
-// Define a type for common chart props
-type CommonChartProps = {
-  data: Record<string, any>[]
+// Define types for chart components
+type ChartComponent = "BarChart" | "LineChart" | "PieChart"
+type ChartElement = "Bar" | "Line" | "Pie"
+
+interface ChartProps extends React.HTMLAttributes<HTMLDivElement> {
   config: ChartConfig
+  children?: React.ReactNode
   className?: string
+  data: Record<string, any>[]
   height?: number
+  width?: number
+  margin?: { top?: number; right?: number; bottom?: number; left?: number }
+  accessibilityDescription?: string
+  chartType?: ChartComponent
 }
 
-// Bar Chart Component
-interface BarChartProps extends CommonChartProps {
-  barKeys: { key: string; color: string }[]
-  xAxisKey: string
-}
+const Chart = React.forwardRef<HTMLDivElement, ChartProps>(
+  (
+    {
+      config,
+      children,
+      className,
+      data,
+      height = 300,
+      width = 500,
+      margin = { top: 0, right: 0, bottom: 0, left: 0 },
+      accessibilityDescription,
+      chartType = "BarChart", // Default chart type
+      ...props
+    },
+    ref,
+  ) => {
+    const chartComponents: Record<ChartComponent, React.ElementType> = {
+      BarChart,
+      LineChart,
+      PieChart,
+    }
 
-const CustomBarChart: React.FC<BarChartProps> = ({ data, config, className, height = 300, barKeys, xAxisKey }) => (
-  <ChartContainer config={config} className={className} style={{ height }}>
-    <BarChart accessibilityLayer data={data}>
-      <CartesianGrid vertical={false} />
-      <XAxis
-        dataKey={xAxisKey}
-        tickLine={false}
-        tickMargin={10}
-        axisLine={false}
-        tickFormatter={(value) => value.slice(0, 3)}
-      />
-      <YAxis />
-      <ChartTooltip content={<ChartTooltipContent />} />
-      {barKeys.map((item) => (
-        <Bar key={item.key} dataKey={item.key} fill={`var(--color-${item.color})`} radius={8} />
-      ))}
-    </BarChart>
-  </ChartContainer>
+    let ChartComponent = chartComponents[chartType]
+
+    if (!ChartComponent) {
+      console.warn(`Unknown chart type: ${chartType}. Defaulting to BarChart.`)
+      ChartComponent = BarChart
+    }
+
+    return (
+      <ChartContainer
+        ref={ref}
+        config={config}
+        className={cn("min-h-[200px] w-full", className)}
+        aria-label={accessibilityDescription}
+        {...props}
+      >
+        <ResponsiveContainer width="100%" height={height}>
+          <ChartComponent data={data} margin={margin}>
+            {children}
+            <ChartTooltip content={<ChartTooltipContent />} />
+            <ChartLegend content={<ChartLegendContent />} />
+          </ChartComponent>
+        </ResponsiveContainer>
+      </ChartContainer>
+    )
+  },
 )
 
-// Line Chart Component
-interface LineChartProps extends CommonChartProps {
-  lineKeys: { key: string; color: string }[]
-  xAxisKey: string
+Chart.displayName = "Chart"
+
+interface ChartAxisProps extends React.ComponentProps<typeof XAxis> {
+  axisType: "x" | "y"
 }
 
-const CustomLineChart: React.FC<LineChartProps> = ({ data, config, className, height = 300, lineKeys, xAxisKey }) => (
-  <ChartContainer config={config} className={className} style={{ height }}>
-    <LineChart accessibilityLayer data={data}>
-      <CartesianGrid vertical={false} />
-      <XAxis dataKey={xAxisKey} tickLine={false} tickMargin={10} axisLine={false} />
-      <YAxis />
-      <ChartTooltip content={<ChartTooltipContent />} />
-      {lineKeys.map((item) => (
-        <Line
-          key={item.key}
-          dataKey={item.key}
-          type="monotone"
-          stroke={`var(--color-${item.color})`}
-          strokeWidth={2}
-          dot={false}
-        />
-      ))}
-    </LineChart>
-  </ChartContainer>
-)
+const ChartAxis = React.forwardRef<SVGSVGElement, ChartAxisProps>(({ axisType, ...props }, ref) => {
+  const AxisComponent = axisType === "x" ? XAxis : YAxis
+  return <AxisComponent ref={ref} {...props} />
+})
+ChartAxis.displayName = "ChartAxis"
 
-// Pie Chart Component
-interface PieChartProps extends CommonChartProps {
-  nameKey: string
+interface ChartElementProps {
+  type: ChartElement
   dataKey: string
+  stroke?: string
+  fill?: string
+  className?: string
+  // Add specific props for each element type
+  barProps?: BarProps
+  lineProps?: LineProps
+  pieProps?: PieProps
 }
 
-const CustomPieChart: React.FC<PieChartProps> = ({ data, config, className, height = 300, nameKey, dataKey }) => (
-  <ChartContainer config={config} className={className} style={{ height }}>
-    <PieChart>
-      <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
-      <Pie
-        data={data}
-        dataKey={dataKey}
-        nameKey={nameKey}
-        innerRadius={60}
-        strokeWidth={5}
-        activeShape={({
-          outerRadius = 0,
-          fill = "",
-          ...props
-        }: {
-          outerRadius?: number
-          fill?: string
-          [key: string]: any
-        }) => (
-          <g>
-            <circle cx={props.cx} cy={props.cy} r={outerRadius + 10} fill={fill} stroke="none" />
-            <path d={props.d} fill={fill} />
-          </g>
-        )}
-      />
-      <Legend />
-    </PieChart>
-  </ChartContainer>
+const ChartElement = React.forwardRef<any, ChartElementProps>(
+  ({ type, dataKey, stroke, fill, className, barProps, lineProps, pieProps, ...props }, ref) => {
+    switch (type) {
+      case "Bar":
+        return (
+          <Bar
+            ref={ref}
+            dataKey={dataKey}
+            stroke={stroke}
+            fill={fill}
+            className={cn(className)}
+            {...barProps}
+            {...props}
+          />
+        )
+      case "Line":
+        return (
+          <Line
+            ref={ref}
+            dataKey={dataKey}
+            stroke={stroke}
+            fill={fill}
+            className={cn(className)}
+            {...lineProps}
+            {...props}
+          />
+        )
+      case "Pie":
+        return (
+          <Pie
+            ref={ref}
+            dataKey={dataKey}
+            stroke={stroke}
+            fill={fill}
+            className={cn(className)}
+            {...pieProps}
+            {...props}
+          />
+        )
+      default:
+        return null
+    }
+  },
 )
+ChartElement.displayName = "ChartElement"
 
-export { CustomBarChart, CustomLineChart, CustomPieChart }
+export { Chart, ChartAxis, ChartElement }
