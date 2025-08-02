@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "Yasir Alam - Backend & Android Developer",
   description:
     "Versatile Backend and Native Android Developer passionate about creating robust backend systems and intuitive mobile experiences.",
-    generator: 'v0.dev'
+  generator: "v0.dev",
 }
 
 export default function RootLayout({

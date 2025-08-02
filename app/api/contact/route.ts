@@ -1,66 +1,46 @@
-import { type NextRequest, NextResponse } from "next/server"
+import { NextResponse } from "next/server"
+import nodemailer from "nodemailer"
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
     const { name, email, subject, message } = await request.json()
 
-    // Validate required fields
+    // Basic validation
     if (!name || !email || !subject || !message) {
-      return NextResponse.json({ error: "All fields are required" }, { status: 400 })
+      return NextResponse.json({ message: "All fields are required." }, { status: 400 })
     }
 
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(email)) {
-      return NextResponse.json({ error: "Invalid email format" }, { status: 400 })
-    }
-
-    // Here you would typically send the email using a service like:
-    // - Nodemailer with SMTP
-    // - SendGrid
-    // - Resend
-    // - AWS SES
-
-    // For now, we'll simulate sending an email
-    console.log("Contact form submission:", {
-      name,
-      email,
-      subject,
-      message,
-      timestamp: new Date().toISOString(),
-    })
-
-    // You can replace this with actual email sending logic
-    // Example with Nodemailer:
-    /*
-    const nodemailer = require('nodemailer')
-    
-    const transporter = nodemailer.createTransporter({
-      service: 'gmail',
+    // Configure Nodemailer transporter
+    const transporter = nodemailer.createTransport({
+      host: "smtp.sendgrid.net", // SendGrid SMTP host
+      port: 587,
+      secure: false, // Use TLS
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user: "apikey", // SendGrid username is 'apikey'
+        pass: process.env.SENDGRID_API_KEY, // Your SendGrid API Key
       },
     })
 
-    await transporter.sendMail({
-      from: email,
-      to: 'yasiralam981@gmail.com',
+    // Email content
+    const mailOptions = {
+      from: process.env.SENDER_EMAIL, // Your verified sender email in SendGrid
+      to: process.env.RECEIVER_EMAIL, // Your email address to receive messages
       subject: `Portfolio Contact: ${subject}`,
       html: `
-        <h2>New Contact Form Submission</h2>
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Subject:</strong> ${subject}</p>
         <p><strong>Message:</strong></p>
         <p>${message}</p>
       `,
-    })
-    */
+    }
 
-    return NextResponse.json({ message: "Message sent successfully!" }, { status: 200 })
+    // Send email
+    await transporter.sendMail(mailOptions)
+
+    return NextResponse.json({ message: "Email sent successfully!" }, { status: 200 })
   } catch (error) {
-    console.error("Contact form error:", error)
-    return NextResponse.json({ error: "Failed to send message" }, { status: 500 })
+    console.error("Error sending email:", error)
+    return NextResponse.json({ message: "Failed to send email." }, { status: 500 })
   }
 }
