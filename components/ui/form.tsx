@@ -2,7 +2,14 @@
 
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
-import { Controller, FormProvider, useFormContext, type FieldPath, type FieldValues } from "react-hook-form"
+import {
+  Controller,
+  FormProvider,
+  useFormContext,
+  type FieldValues,
+  type FieldPath,
+  type ControllerProps,
+} from "react-hook-form"
 
 import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
@@ -10,7 +17,11 @@ import { Label } from "@/components/ui/label"
 const Form = FormProvider
 
 type FormFieldContextValue<
-  TFieldValues extends FieldValues = FieldValues,
+  TFieldValues extends
+    | FieldValues
+    | {
+        [x: string]: any
+      } = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > = {
   name: TName
@@ -19,11 +30,15 @@ type FormFieldContextValue<
 const FormFieldContext = React.createContext<FormFieldContextValue>({} as FormFieldContextValue)
 
 const FormField = <
-  TFieldValues extends FieldValues = FieldValues,
+  TFieldValues extends
+    | FieldValues
+    | {
+        [x: string]: any
+      } = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->(
-  props: React.PropsWithChildren<React.ComponentProps<typeof Controller>>,
-) => {
+>({
+  ...props
+}: ControllerProps<TFieldValues, TName>) => {
   return (
     <FormFieldContext.Provider value={{ name: props.name }}>
       <Controller {...props} />
@@ -34,6 +49,7 @@ const FormField = <
 const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext)
   const itemContext = React.useContext(FormItemContext)
+
   const { getFieldState, formState } = useFormContext()
 
   const fieldState = getFieldState(fieldContext.name, formState)
@@ -133,4 +149,4 @@ const FormMessage = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<
 )
 FormMessage.displayName = "FormMessage"
 
-export { useFormField, Form, FormItem, FormLabel, FormControl, FormDescription, FormMessage, FormField }
+export { useFormField, Form, FormItem, FormLabel, FormControl, FormDescription, FormMessage }

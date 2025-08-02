@@ -1,22 +1,7 @@
 "use client"
+import { useMediaQuery } from "@uidotdev/usehooks"
 
-import { useState, useEffect } from "react"
-
-export const useMobile = (maxWidth = 768) => {
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= maxWidth)
-    }
-
-    checkMobile()
-    window.addEventListener("resize", checkMobile)
-
-    return () => {
-      window.removeEventListener("resize", checkMobile)
-    }
-  }, [maxWidth])
-
+export function useMobile() {
+  const isMobile = useMediaQuery("only screen and (max-width : 768px)")
   return isMobile
 }

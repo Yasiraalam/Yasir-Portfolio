@@ -600,16 +600,27 @@ const SidebarMenuSubButton = React.forwardRef<
 SidebarMenuSubButton.displayName = "SidebarMenuSubButton"
 
 const sidebarVariants = cva(
-  "group/sidebar relative flex h-full w-full flex-col overflow-hidden border-r bg-background text-foreground transition-all duration-300 ease-in-out",
+  "relative flex h-full w-full flex-col overflow-y-auto bg-background transition-all duration-300 ease-in-out",
   {
     variants: {
+      variant: {
+        default: "border-r border-border",
+        ghost: "",
+      },
+      size: {
+        default: "w-64",
+        sm: "w-56",
+        lg: "w-72",
+        xl: "w-80",
+        full: "w-full",
+      },
       collapsed: {
-        true: "w-14",
-        false: "w-64",
+        true: "w-16",
       },
     },
     defaultVariants: {
-      collapsed: false,
+      variant: "default",
+      size: "default",
     },
   },
 )
@@ -618,9 +629,11 @@ export interface SidebarProps extends React.HTMLAttributes<HTMLDivElement>, Vari
   collapsed?: boolean
 }
 
-const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(({ className, collapsed, ...props }, ref) => (
-  <aside ref={ref} className={cn(sidebarVariants({ collapsed }), className)} {...props} />
-))
+const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
+  ({ className, variant, size, collapsed, ...props }, ref) => (
+    <aside ref={ref} className={cn(sidebarVariants({ variant, size, collapsed }), className)} {...props} />
+  ),
+)
 Sidebar.displayName = "Sidebar"
 
 const SidebarGroup = React.forwardRef<HTMLDivElement, React.ComponentProps<"div">>(({ className, ...props }, ref) => {
@@ -708,4 +721,6 @@ export {
   SidebarRail,
   SidebarToggle,
   SidebarHeaderTitle,
+  Sidebar,
+  sidebarVariants,
 }

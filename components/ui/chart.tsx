@@ -17,13 +17,13 @@ import {
 } from "recharts"
 import {
   type ChartConfig,
-  ChartContainer,
   ChartLegend,
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
 import { cn } from "@/lib/utils"
+import { ChartContainer as RechartsChartContainer } from "@tremor/react"
 
 // Define types for chart components
 type ChartComponent = "BarChart" | "LineChart" | "PieChart"
@@ -38,7 +38,7 @@ interface ChartProps extends React.HTMLAttributes<HTMLDivElement> {
   width?: number
   margin?: { top?: number; right?: number; bottom?: number; left?: number }
   accessibilityDescription?: string
-  chartType?: ChartComponent
+  chartType?: ChartComponent // Default chart type
 }
 
 const Chart = React.forwardRef<HTMLDivElement, ChartProps>(
@@ -71,7 +71,7 @@ const Chart = React.forwardRef<HTMLDivElement, ChartProps>(
     }
 
     return (
-      <ChartContainer
+      <RechartsChartContainer
         ref={ref}
         config={config}
         className={cn("min-h-[200px] w-full", className)}
@@ -85,7 +85,7 @@ const Chart = React.forwardRef<HTMLDivElement, ChartProps>(
             <ChartLegend content={<ChartLegendContent />} />
           </ChartComponent>
         </ResponsiveContainer>
-      </ChartContainer>
+      </RechartsChartContainer>
     )
   },
 )

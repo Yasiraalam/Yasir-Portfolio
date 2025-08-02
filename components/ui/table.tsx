@@ -25,14 +25,7 @@ TableBody.displayName = "TableBody"
 
 const TableFooter = React.forwardRef<HTMLTableSectionElement, React.HTMLAttributes<HTMLTableSectionElement>>(
   ({ className, ...props }, ref) => (
-    <tfoot
-      ref={ref}
-      className={cn(
-        "border-t bg-muted/50 font-medium [&>tr]:last:hidden", // Added [&>tr]:last:hidden to hide the last row
-        className,
-      )}
-      {...props}
-    />
+    <tfoot ref={ref} className={cn("border-t bg-muted/50 font-medium [&>tr]:last:hidden", className)} {...props} />
   ),
 )
 TableFooter.displayName = "TableFooter"
@@ -53,7 +46,7 @@ const TableHead = React.forwardRef<HTMLTableCellElement, React.ThHTMLAttributes<
     <th
       ref={ref}
       className={cn(
-        "h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([data-state=checked])]:pr-0",
+        "h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0",
         className,
       )}
       {...props}
@@ -64,7 +57,7 @@ TableHead.displayName = "TableHead"
 
 const TableCell = React.forwardRef<HTMLTableCellElement, React.TdHTMLAttributes<HTMLTableCellElement>>(
   ({ className, ...props }, ref) => (
-    <td ref={ref} className={cn("p-4 align-middle [&:has([data-state=checked])]:pr-0", className)} {...props} />
+    <td ref={ref} className={cn("p-4 align-middle [&:has([role=checkbox])]:pr-0", className)} {...props} />
   ),
 )
 TableCell.displayName = "TableCell"
@@ -76,4 +69,4 @@ const TableCaption = React.forwardRef<HTMLTableCaptionElement, React.HTMLAttribu
 )
 TableCaption.displayName = "TableCaption"
 
-export { Table, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableCell, TableCaption }
+export { Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption }

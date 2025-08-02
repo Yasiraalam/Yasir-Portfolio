@@ -388,8 +388,9 @@ export default function Portfolio() {
                 <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
               </Button>
               <a
-                href="/yasir-alam-cv.pdf"
-                download="Yasir_Alam_CV.pdf"
+                href="https://drive.google.com/file/d/1hBEqMdlt8rKZn4XswaHCGOZM3Ae8ReKp/view?usp=sharing"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group relative border-2 border-emerald-400 text-emerald-400 hover:bg-emerald-400 hover:text-slate-900 px-8 py-4 text-lg font-semibold bg-transparent rounded-full transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-emerald-500/25 flex items-center justify-center"
               >
                 <Download className="mr-2 h-5 w-5 group-hover:animate-bounce" />

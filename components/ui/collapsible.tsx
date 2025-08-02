@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils"
 
 const Collapsible = CollapsiblePrimitive.Root
 
-const CollapsibleTrigger = CollapsiblePrimitive.Trigger
+const CollapsibleTrigger = CollapsiblePrimitive.CollapsibleTrigger
 
 const CollapsibleContent = React.forwardRef<
   React.ElementRef<typeof CollapsiblePrimitive.CollapsibleContent>,

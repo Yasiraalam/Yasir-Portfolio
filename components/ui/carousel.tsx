@@ -2,29 +2,19 @@
 
 import * as React from "react"
 import useEmblaCarousel, { type UseEmblaCarouselType } from "embla-carousel-react"
-import { ArrowLeft, ArrowRight } from "lucide-react"
+import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
-type CarouselCoreProps = React.ComponentPropsWithoutRef<"div"> & {
-  opts?: UseEmblaCarouselType[0]
-  orientation?: "horizontal" | "vertical"
-  plugins?: UseEmblaCarouselType[1]
-}
-
-type CarouselProps = CarouselCoreProps & {
-  setApi?: (api: UseEmblaCarouselType[1]) => void
-}
-
 type CarouselContextProps = {
-  carouselRef: ReturnType<typeof useEmblaCarousel>[0]
-  api: ReturnType<typeof useEmblaCarousel>[1]
+  carouselRef: UseEmblaCarouselType[0]
+  api: UseEmblaCarouselType[1]
   scrollPrev: () => void
   scrollNext: () => void
   canScrollPrev: boolean
   canScrollNext: boolean
-} & CarouselCoreProps
+} & React.ComponentPropsWithoutRef<"div">
 
 const CarouselContext = React.createContext<CarouselContextProps | null>(null)
 
@@ -38,8 +28,15 @@ function useCarousel() {
   return context
 }
 
-const Carousel = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<"div"> & CarouselProps>(
-  ({ opts, orientation = "horizontal", plugins, setApi, className, children, ...props }, ref) => {
+type CarouselProps = {
+  opts?: React.ComponentProps<typeof useEmblaCarousel>[0]
+  plugins?: React.ComponentProps<typeof useEmblaCarousel>[1]
+  orientation?: "horizontal" | "vertical"
+  setApi?: (api: UseEmblaCarouselType[1]) => void
+} & React.ComponentPropsWithoutRef<"div">
+
+const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
+  ({ opts, plugins, orientation = "horizontal", setApi, className, children, ...props }, ref) => {
     const [carouselRef, api] = useEmblaCarousel(
       {
         ...opts,
@@ -81,12 +78,12 @@ const Carousel = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef
         return
       }
 
-      setApi?.(api)
-      api.on("select", onSelect)
+      onSelect(api)
       api.on("reInit", onSelect)
+      api.on("select", onSelect)
 
-      return () => {
-        api?.off("select", onSelect)
+      if (setApi) {
+        setApi(api)
       }
     }, [api, onSelect, setApi])
 
@@ -95,12 +92,11 @@ const Carousel = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef
         value={{
           carouselRef,
           api: api,
-          opts,
-          orientation,
           scrollPrev,
           scrollNext,
           canScrollPrev,
           canScrollNext,
+          orientation,
         }}
       >
         <div
@@ -119,7 +115,7 @@ const Carousel = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef
 )
 Carousel.displayName = "Carousel"
 
-const CarouselContent = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<"div">>(
+const CarouselContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => {
     const { carouselRef, orientation } = useCarousel()
 
@@ -136,7 +132,7 @@ const CarouselContent = React.forwardRef<HTMLDivElement, React.ComponentPropsWit
 )
 CarouselContent.displayName = "CarouselContent"
 
-const CarouselItem = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<"div">>(
+const CarouselItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => {
     const { orientation } = useCarousel()
 
@@ -173,7 +169,7 @@ const CarouselPrevious = React.forwardRef<HTMLButtonElement, React.ComponentProp
         disabled={!canScrollPrev}
         {...props}
       >
-        <ArrowLeft className="h-4 w-4" />
+        <ArrowLeftIcon className="h-4 w-4" />
         <span className="sr-only">Previous slide</span>
       </Button>
     )
@@ -201,7 +197,7 @@ const CarouselNext = React.forwardRef<HTMLButtonElement, React.ComponentPropsWit
         disabled={!canScrollNext}
         {...props}
       >
-        <ArrowRight className="h-4 w-4" />
+        <ArrowRightIcon className="h-4 w-4" />
         <span className="sr-only">Next slide</span>
       </Button>
     )
