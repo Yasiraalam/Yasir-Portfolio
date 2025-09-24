@@ -16,7 +16,6 @@ import {
   Github,
   Linkedin,
   Twitter,
-  Download,
   Menu,
   X,
   Code,
@@ -339,10 +338,10 @@ export default function Portfolio() {
                   <Image
                     src="/images/yasir-profile.jpg"
                     alt="Yasir Alam"
-                    width={160} // Corresponds to w-40 (160px)
-                    height={160} // Corresponds to h-40 (160px)
-                    priority // Loads the image with high priority as it's above the fold
-                    quality={100} // Maintain high quality for the profile picture
+                    width={160}
+                    height={160}
+                    priority
+                    quality={100}
                     className="w-full h-full object-cover rounded-full"
                   />
                 </div>
@@ -355,9 +354,9 @@ export default function Portfolio() {
               className={`transform transition-all duration-1000 delay-300 ${isLoaded ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
             >
               <h1 className="text-4xl md:text-7xl font-bold mb-6 leading-tight">
-                <span className="block text-slate-300">Hi, I’m</span>
+                <span className="block text-slate-300">Hi, I'm</span>
                 <span className="block bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent animate-gradient">
-                  {isLoaded && <TypewriterText text="Yasir Alam — Software Engineer" delay={150} />}
+                  {isLoaded && <TypewriterText text="Yasir Alam" delay={150} />}
                 </span>
               </h1>
             </div>
@@ -368,7 +367,7 @@ export default function Portfolio() {
             >
               <p className="text-xl md:text-2xl text-slate-300 mb-8 max-w-4xl mx-auto leading-relaxed">
                 <span className="bg-gradient-to-r from-slate-300 to-slate-100 bg-clip-text text-transparent">
-                  Building
+                  Versatile Backend and Native Android Developer passionate about creating
                 </span>
                 <span className="text-emerald-400 font-semibold"> robust backend systems </span>
                 <span className="bg-gradient-to-r from-slate-300 to-slate-100 bg-clip-text text-transparent">and</span>
@@ -376,9 +375,9 @@ export default function Portfolio() {
               </p>
             </div>
 
-            {/* Animated Buttons */}
+            {/* Animated Button */}
             <div
-              className={`flex flex-col sm:flex-row gap-6 justify-center items-center mb-12 transform transition-all duration-1000 delay-700 ${isLoaded ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
+              className={`flex justify-center mb-12 transform transition-all duration-1000 delay-700 ${isLoaded ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
             >
               <Button
                 onClick={() => scrollToSection("contact")}
@@ -386,14 +385,6 @@ export default function Portfolio() {
               >
                 <span className="relative z-10">Get In Touch</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-              </Button>
-              <Button
-                variant="outline"
-                className="group relative border-2 border-emerald-400 text-emerald-400 hover:bg-emerald-400 hover:text-slate-900 px-8 py-4 text-lg font-semibold bg-transparent rounded-full transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-emerald-500/25"
-                onClick={() => window.open("/yasir-alam-cv.pdf", "_blank")}
-              >
-                <Download className="mr-2 h-5 w-5 group-hover:animate-bounce" />
-                <span>Download CV</span>
               </Button>
             </div>
 
@@ -404,7 +395,7 @@ export default function Portfolio() {
               {[
                 { icon: Github, href: "https://github.com/Yasiraalam", delay: "0ms" },
                 { icon: Linkedin, href: "https://www.linkedin.com/in/yasir-alam-89862422b/", delay: "100ms" },
-                { icon: Twitter, href: "https://x.com/home?lang=en", delay: "200ms" },
+                { icon: Twitter, href: "https://x.com/YasirAalam02", delay: "200ms" },
               ].map(({ icon: Icon, href, delay }, index) => (
                 <a
                   key={index}
@@ -560,10 +551,10 @@ export default function Portfolio() {
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                   <div>
                     <CardTitle className="text-2xl bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent group-hover:animate-pulse">
-                      Android Developer Intern
+                      Mobile Developer
                     </CardTitle>
                     <CardDescription className="text-lg text-slate-300 group-hover:text-slate-200 transition-colors duration-300">
-                      Minipix • Remote
+                      Minipix • Remote • Full-time
                     </CardDescription>
                   </div>
                   <Badge
@@ -577,8 +568,9 @@ export default function Portfolio() {
               <CardContent>
                 <ul className="space-y-4 text-slate-300">
                   {[
-                    "Currently working as an Android Developer Intern focusing on mobile application development",
+                    "Working as a Mobile Developer focusing on cross-platform and native mobile application development",
                     "Developing native Android applications using Kotlin and modern Android development practices",
+                    "Building cross-platform applications to reach wider audiences across different platforms",
                     "Collaborating with cross-functional teams to deliver high-quality mobile solutions",
                     "Implementing UI/UX designs using Jetpack Compose and Material Design principles",
                   ].map((item, index) => (
@@ -808,7 +800,7 @@ export default function Portfolio() {
                         href: "https://www.linkedin.com/in/yasir-alam-89862422b/",
                         color: "from-emerald-500 to-teal-500",
                       },
-                      { icon: Twitter, href: "https://x.com/home?lang=en", color: "from-orange-500 to-red-500" },
+                      { icon: Twitter, href: "https://x.com/YasirAalam02", color: "from-orange-500 to-red-500" },
                     ].map((item, index) => (
                       <a
                         key={index}
@@ -944,7 +936,7 @@ export default function Portfolio() {
       <footer className="relative py-12 px-4 sm:px-6 lg:px-8 bg-slate-800/50 backdrop-blur-sm border-t border-slate-700/50">
         <div className="max-w-7xl mx-auto text-center relative z-10">
           <p className="text-slate-400 text-lg">
-            © 2024 Yasir Alam. Built with <span className="text-emerald-400 animate-pulse">❤️</span> using Next.js and
+            © 2025 Yasir Alam. Built with <span className="text-emerald-400 animate-pulse">❤️</span> using Next.js and
             Tailwind CSS.
           </p>
         </div>
