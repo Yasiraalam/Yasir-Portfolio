@@ -25,7 +25,6 @@ import {
   Send,
   User,
   MessageSquare,
-  ExternalLink,
 } from "lucide-react"
 
 export default function Portfolio() {
@@ -187,7 +186,6 @@ export default function Portfolio() {
         "Integrated Resilience4j for circuit breakers and fault tolerance",
       ],
       github: "https://github.com/Yasiraalam/E-commerce-MicroServices-arch",
-      liveDemo: "https://ecommerce-demo.yasiralam.dev",
       icon: <Server className="h-6 w-6" />,
       color: "from-purple-500 to-pink-500",
     },
@@ -203,7 +201,6 @@ export default function Portfolio() {
         "Real-time inventory management in mobile app",
       ],
       github: "https://github.com/Yasiraalam/Zip-Feast-App",
-      liveDemo: "https://zipfeast.yasiralam.dev",
       icon: <Smartphone className="h-6 w-6" />,
       color: "from-emerald-500 to-teal-500",
     },
@@ -678,7 +675,7 @@ export default function Portfolio() {
                       </li>
                     ))}
                   </ul>
-                  <div className="flex gap-3">
+                  <div className="flex justify-center">
                     <Button
                       variant="outline"
                       size="sm"
@@ -688,16 +685,6 @@ export default function Portfolio() {
                       <Github className="mr-2 h-4 w-4 group-hover/btn:animate-spin" />
                       View Code
                     </Button>
-                    {project.liveDemo && (
-                      <Button
-                        size="sm"
-                        className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white transition-all duration-300 transform hover:scale-105"
-                        onClick={() => window.open(project.liveDemo, "_blank")}
-                      >
-                        <ExternalLink className="mr-2 h-4 w-4" />
-                        Live Demo
-                      </Button>
-                    )}
                   </div>
                 </CardContent>
               </Card>
